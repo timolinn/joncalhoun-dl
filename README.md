@@ -9,7 +9,7 @@ Downloads videos from joncalhoun.io
 Still under develooment, I haven't really fleshed out how this is going to work.
 
 ```bash
-    $ go run main.go -email=jon@doe.com -password=12345 -course=testwithgo
+    $ go run main.go --email=jon@doe.com --password=12345 -course=testwithgo
 ```
 
 ### Supported courses

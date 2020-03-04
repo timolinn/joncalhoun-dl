@@ -23,6 +23,7 @@ func main() {
 	if *email == "" || *password == "" {
 		log.Fatal(errors.New("[Error] try: 'go run main.go -email=jon@examp.com -password=12345'"))
 	}
+	panic("Stop")
 	options := cookiejar.Options{
 		PublicSuffixList: publicsuffix.List,
 	}
@@ -44,6 +45,5 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// fmt.Println(res.Cookies())
 	fmt.Println(string(body))
 }
