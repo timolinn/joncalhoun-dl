@@ -6,7 +6,11 @@ Downloads videos from joncalhoun.io
 
 ## How to use
 
-Still under develooment, I haven't really fleshed out how this is going to work, so just `go run main.go` for now.
+Still under develooment, I haven't really fleshed out how this is going to work.
+
+```bash
+    $ go run main.go -email=jon@doe.com -password=12345 -course=testwithgo
+```
 
 ### Supported courses
 

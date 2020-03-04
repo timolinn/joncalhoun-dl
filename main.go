@@ -13,8 +13,9 @@ import (
 	"golang.org/x/net/publicsuffix"
 )
 
-var email = flag.String("email", "", "email")
-var password = flag.String("password", "", "password")
+var email = flag.String("email", "", "your email")
+var password = flag.String("password", "", "your password")
+var course = flag.String("course", "testwithgo", "course name")
 
 func main() {
 	flag.Parse()
