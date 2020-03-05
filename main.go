@@ -28,10 +28,10 @@ var course = flag.String("course", "gophercises", "course name")
 var referer = "https://courses.calhoun.io"
 
 var courses = map[string]string{
-	"testwithgo":  "https://courses.calhoun.io/courses/cor_test",
-	"gophercises": "https://courses.calhoun.io/courses/cor_gophercises",
-	"algorithms":  "https://courses.calhoun.io/courses/cor_algo",
-	"webdevelopmentwithgo": "https://courses.calhoun.io/courses/cor_webdev",
+	"testwithgo":   "https://courses.calhoun.io/courses/cor_test",
+	"gophercises":  "https://courses.calhoun.io/courses/cor_gophercises",
+	"algorithms":   "https://courses.calhoun.io/courses/cor_algo",
+	"webdevwithgo": "https://courses.calhoun.io/courses/cor_webdev",
 }
 var delayDuration = 5
 
