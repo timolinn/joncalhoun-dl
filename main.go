@@ -64,19 +64,23 @@ func main() {
 	defer cancel()
 	videoURLs := getURLs(client)
 	for i, videoURL := range videoURLs {
-		fmt.Printf("[joncalhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
-		fmt.Printf("[exec]: youtube-dl %s --referer %s\n", videoURL, referer)
-		cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o",
-			"./videos/"+*course+"/%(title)s.%(ext)s")
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		if err := cmd.Start(); err != nil {
-			log.Fatal(err)
+		if videoURL != "" {
+			fmt.Printf("[joncalhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
+			fmt.Printf("[exec]: youtube-dl %s --referer %s\n", videoURL, referer)
+			cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o",
+				"./videos/"+*course+"/%(title)s.%(ext)s")
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			if err := cmd.Start(); err != nil {
+				log.Fatal(err)
+			}
+			if err := cmd.Wait(); err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("[joncalhoun.io]: downloaded lesson 0%d\n", i+1)
+		} else {
+			fmt.Printf("[joncalhoun.io]: Page for lesson 0%d does not have an embedded video \n", i+1)
 		}
-		if err := cmd.Wait(); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("[joncalhoun.io]: downloaded lesson 0%d\n", i+1)
 	}
 	fmt.Println("Done! 🚀")
 }
