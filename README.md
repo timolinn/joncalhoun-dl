@@ -19,7 +19,7 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
      [courses.calhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
-Resumes from where it stopped should you experience network interruption.
+Video downloads **resumes** from where it stopped, so should you experience network interruption nothing to worry about just make sure the output directory remains the same.
 
 ### Command [OPTIONS]
 
