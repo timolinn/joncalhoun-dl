@@ -35,9 +35,40 @@ var courses = map[string]string{
 }
 var delayDuration = 5
 
+// ClientOption is the type of constructor options for NewClient(...).
+type ClientOption func(*http.Client) error
+
 func checkError(err error) {
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+// NewClient constructs anew client which can make requests
+// to course website
+func NewClient(options ...ClientOption) (*http.Client, error) {
+	// Cookiejar provides automatic cookie management
+	// that would normally be accessed only via the browser
+	opts := cookiejar.Options{
+		PublicSuffixList: publicsuffix.List,
+	}
+	jar, err := cookiejar.New(&opts)
+	checkError(err)
+	c := &http.Client{Jar: jar}
+	for _, option := range options {
+		err := option(c)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return c, nil
+}
+
+// WithTransport configures the client to use a different transport
+func WithTransport(fn RoundTripperFunc) ClientOption {
+	return func(client *http.Client) error {
+		client.Transport = RoundTripperFunc(fn)
+		return nil
 	}
 }
 
@@ -45,15 +76,8 @@ func main() {
 	// Parse commandline options
 	flag.Parse()
 
-	// Cookiejar provides automatic cookie management
-	// that would normally be accessed only via the browser
-	options := cookiejar.Options{
-		PublicSuffixList: publicsuffix.List,
-	}
-	jar, err := cookiejar.New(&options)
+	client, err := NewClient()
 	checkError(err)
-
-	client := &http.Client{Jar: jar}
 
 	// Login
 	signin(client)
@@ -62,12 +86,12 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	videoURLs := getURLs(client)
-	location := *outputdir + "/" + *course + "/%(title)s.%(ext)s"
+	location := *outputdir + "/%(title)s.%(ext)s"
 	if *outputdir == "" || !dirExists(*outputdir) {
-		*outputdir = "./videos"
-		location = *outputdir + *course + "/%(title)s.%(ext)s"
+		*outputdir = "./videos/" + *course
+		location = *outputdir + "/%(title)s.%(ext)s"
 	}
-	fmt.Printf("[courses.calhoun.io]: output directory is %s\n", *outputdir+"/"+*course)
+	fmt.Printf("[courses.calhoun.io]: output directory is %s\n", *outputdir)
 
 	for i, videoURL := range videoURLs {
 		fmt.Printf("[courses.calhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)

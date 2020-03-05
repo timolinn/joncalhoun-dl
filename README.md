@@ -19,11 +19,14 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
      [courses.calhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
+Resumes from where it stopped should you experience network interruption.
+
 ### Command [OPTIONS]
 
 + `--email` : Your account email address. Sign up [here](https://courses.calhoun.io/signup?)
 + `--password` : Your account password. _Unlike the unix password prompt, this will not hide your password by default, you'll have to keep an eye over your shoulder 😉_
-+ `--course` : This is the name of the course you want to download. **Defaults to `"gophercises"`**
++ `--course` : This is the name of the course you want to download. **Defaults** to `"gophercises"`
++ `--output` : Output directory (where the videos would be saved). **Defaults** to `"./videos/[course]"`
 
 ### Supported courses
 
@@ -35,14 +38,20 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
 
 There is still a couple features to implement, check the TODO list below and send a pull request.
 
+### Tests
+
+```bash
+    $ go test
+```
+
 ## TODO
 
 + [x] Add caching for requests
 + [x] Add default output directory
-+ [ ] Add unit tests
++ [x] Add output directoy flag
++ [ ] Add more unit tests
 + [ ] provide packaged release and semver
 + [ ] check for authentication error
-+ [ ] Add output directoy flag
 + [ ] prevent signin when using cache
 + [ ] choose video quality
 
