@@ -15,8 +15,8 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
     $ git clone git@github.com:timolinn/joncalhoun-dl.git
     $ cd joncalhoun-dl
     $ go run main.go --email=jon@doe.com --password=12345 --course=gophercises
-     [joncalhoun.io]: fetching video urls for gophercises
-     [joncalhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
+     [courses.calhoun.io]: fetching video urls for gophercises
+     [courses.calhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
 ### Command [OPTIONS]
