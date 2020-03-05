@@ -145,6 +145,10 @@ func getURLs(client *http.Client) []string {
 			if strings.Contains(href, "/lessons/les_goph") {
 				urls = append(urls, "https://courses.calhoun.io"+href)
 			}
+		case "webdevwithgo":
+			if strings.Contains(href, "/lessons/les_wd") {
+				urls = append(urls, "https://courses.calhoun.io"+href)
+			}
 		case "algorithms":
 			log.Fatal("Algorithms not supported yet")
 		default:
