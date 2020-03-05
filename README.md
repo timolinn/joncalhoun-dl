@@ -29,7 +29,13 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
 
 + [x] [gophercises](https://courses.calhoun.io/courses/cor_gophercises)
 + [x] [testwithgo](https://courses.calhoun.io/courses/cor_test)
++ [x] [webdevwithgo](https://courses.calhoun.io/courses/cor_webdev)
++ [ ] [advancedwebdevwithgo](https://https://courses.calhoun.io/courses/cor_awd)
 + [ ] [algorithms](https://courses.calhoun.io/courses/cor_algo)
+
+### Nuance
+
+Downloaded course videos would be automatically grouped inside `course directories` named after their respective courses titles e.g. `testwithgo` etc., without your input. These newly created `course directories` would be in a root directory named `videos` - which is also created at runtime.
 
 ### Contributing
 
@@ -42,7 +48,7 @@ There is still a couple features to implement, check the TODO list below and sen
 + [ ] Add unit tests
 + [ ] provide packaged release and semver
 + [ ] check for authentication error
-+ [ ] Add output directoy flag
++ [ ] Add output directory flag
 + [ ] prevent signin when using cache
 + [ ] choose video quality
 

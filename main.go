@@ -28,10 +28,11 @@ var course = flag.String("course", "gophercises", "course name")
 var referer = "https://courses.calhoun.io"
 
 var courses = map[string]string{
-	"testwithgo":   "https://courses.calhoun.io/courses/cor_test",
-	"gophercises":  "https://courses.calhoun.io/courses/cor_gophercises",
-	"algorithms":   "https://courses.calhoun.io/courses/cor_algo",
-	"webdevwithgo": "https://courses.calhoun.io/courses/cor_webdev",
+	"testwithgo":           "https://courses.calhoun.io/courses/cor_test",
+	"gophercises":          "https://courses.calhoun.io/courses/cor_gophercises",
+	"algorithms":           "https://courses.calhoun.io/courses/cor_algo",
+	"webdevwithgo":         "https://courses.calhoun.io/courses/cor_webdev",
+	"advancedwebdevwithgo": "https://courses.calhoun.io/courses/cor_awd",
 }
 var delayDuration = 5
 
@@ -149,8 +150,10 @@ func getURLs(client *http.Client) []string {
 			if strings.Contains(href, "/lessons/les_wd") {
 				urls = append(urls, "https://courses.calhoun.io"+href)
 			}
+		case "advancedwebdevwithgo":
+			log.Fatal("'Advanced Web Development with Go' not supported yet")
 		case "algorithms":
-			log.Fatal("Algorithms not supported yet")
+			log.Fatal("'Algorithms' not supported yet")
 		default:
 			log.Fatal("course not supported yet. feel free to send a pull request")
 		}
