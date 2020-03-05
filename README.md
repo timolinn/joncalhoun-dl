@@ -8,6 +8,7 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
 
 ## How to use
 
++ Ensure [youtube-dl](https://github.com/ytdl-org/youtube-dl#installation) is installed and in your PATH.
 + Run the following commands
 
 ```bash
