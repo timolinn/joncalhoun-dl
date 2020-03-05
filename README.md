@@ -38,6 +38,7 @@ There is still a couple features to implement, check the TODO list below and sen
 
 + [x] Add caching for requests
 + [x] Add default output directory
++ [ ] Add unit tests
 + [ ] provide packaged release and semver
 + [ ] check for authentication error
 + [ ] Add output directoy flag
