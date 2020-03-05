@@ -4,11 +4,11 @@ Downloads Go tutorial videos from joncalhoun.io
 
 > **Before you proceed, note that you must be a paid user for the paid content to download**
 
-Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a great teacher, consider buying his premium courses if want to.
+Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a great teacher, consider buying his premium courses if you want to.
 
 ## How to use
 
-+ Clone this repo and then run the command below
++ Run the following commands
 
 ```bash
     $ git clone git@github.com:timolinn/joncalhoun-dl.git
@@ -18,7 +18,7 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
      [joncalhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
-### Command [options]
+### Command [OPTIONS]
 
 + `--email` : Your account email address. Sign up [here](https://courses.calhoun.io/signup?)
 + `--password` : Your account password. _Unlike the unix password prompt, this will not hide your password by default, you'll have to keep an eye over your shoulder 😉_
@@ -26,8 +26,8 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
 
 ### Supported courses
 
-+ [x] [testwithgo](https://courses.calhoun.io/courses/cor_test)
 + [x] [gophercises](https://courses.calhoun.io/courses/cor_gophercises)
++ [x] [testwithgo](https://courses.calhoun.io/courses/cor_test)
 + [ ] [algorithms](https://courses.calhoun.io/courses/cor_algo)
 
 ### Contributing
@@ -36,9 +36,9 @@ There is still a couple features to implement, check the TODO list below and sen
 
 ## TODO
 
-+ [x] Add caching for deterministic requests
++ [x] Add caching for requests
 + [x] Add default output directory
-+ [ ] Add Packaged release and semver
++ [ ] provide packaged release and semver
 + [ ] check for authentication error
 + [ ] Add output directoy flag
 + [ ] prevent signin when using cache
@@ -48,4 +48,4 @@ There is still a couple features to implement, check the TODO list below and sen
 
 + Timothy Onyiuke _([twitter](https://twitter.com/timolinn_))_
 
-Remeber to Star this repo if you like it! 🔥
+If you find this repository to be of any help, please consider giving it Star! 🔥
