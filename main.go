@@ -23,6 +23,7 @@ import (
 var email = flag.String("email", "", "your email")
 var password = flag.String("password", "", "your password")
 var course = flag.String("course", "gophercises", "course name")
+var outputdir = flag.String("output", "", "output directory")
 
 // this will be used by youtube-dl binary to download video
 var referer = "https://courses.calhoun.io"
@@ -36,9 +37,40 @@ var courses = map[string]string{
 }
 var delayDuration = 5
 
+// ClientOption is the type of constructor options for NewClient(...).
+type ClientOption func(*http.Client) error
+
 func checkError(err error) {
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+// NewClient constructs anew client which can make requests
+// to course website
+func NewClient(options ...ClientOption) (*http.Client, error) {
+	// Cookiejar provides automatic cookie management
+	// that would normally be accessed only via the browser
+	opts := cookiejar.Options{
+		PublicSuffixList: publicsuffix.List,
+	}
+	jar, err := cookiejar.New(&opts)
+	checkError(err)
+	c := &http.Client{Jar: jar}
+	for _, option := range options {
+		err := option(c)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return c, nil
+}
+
+// WithTransport configures the client to use a different transport
+func WithTransport(fn RoundTripperFunc) ClientOption {
+	return func(client *http.Client) error {
+		client.Transport = RoundTripperFunc(fn)
+		return nil
 	}
 }
 
@@ -46,15 +78,8 @@ func main() {
 	// Parse commandline options
 	flag.Parse()
 
-	// Cookiejar provides automatic cookie management
-	// that would normally be accessed only via the browser
-	options := cookiejar.Options{
-		PublicSuffixList: publicsuffix.List,
-	}
-	jar, err := cookiejar.New(&options)
+	client, err := NewClient()
 	checkError(err)
-
-	client := &http.Client{Jar: jar}
 
 	// Login
 	signin(client)
@@ -63,12 +88,18 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	videoURLs := getURLs(client)
+	location := *outputdir + "/%(title)s.%(ext)s"
+	if *outputdir == "" || !dirExists(*outputdir) {
+		*outputdir = "./videos/" + *course
+		location = *outputdir + "/%(title)s.%(ext)s"
+	}
+	fmt.Printf("[courses.calhoun.io]: output directory is %s\n", *outputdir)
+
 	for i, videoURL := range videoURLs {
 		if videoURL != "" {
-			fmt.Printf("[joncalhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
-			fmt.Printf("[exec]: youtube-dl %s --referer %s\n", videoURL, referer)
-			cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o",
-				"./videos/"+*course+"/%(title)s.%(ext)s")
+			fmt.Printf("[courses.calhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
+		  fmt.Printf("[exec]: youtube-dl %s --referer %s -o %s\n", videoURL, referer, location)
+		  cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o", location)
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 			if err := cmd.Start(); err != nil {
@@ -91,36 +122,36 @@ func signin(client *http.Client) {
 		log.Fatal(errors.New("[Error] try: 'go run main.go --email=jon@examp.com --password=12345'"))
 	}
 
-	fmt.Println("[joncalhoun.io]: signing in...")
+	fmt.Println("[courses.calhoun.io]: signing in...")
 	_, err := client.PostForm("https://courses.calhoun.io/signin", url.Values{
 		"email":    {*email},
 		"password": {*password},
 	})
 	checkError(err)
-	fmt.Println("[joncalhoun.io]: sign in successful")
+	fmt.Println("[courses.calhoun.io]: sign in successful")
 }
 
 func getCourseHTML(url string, client *http.Client) {
-	// Make a Get Request to the course URL
+	// Make a Get Request to the course URL and fetch the HTML
 	// user must be logged in
-	fmt.Printf("[joncalhoun.io]: fetching data for %s...\n", url)
+	fmt.Printf("[courses.calhoun.io]: fetching data for %s...\n", url)
 	res, err := client.Get(url)
 	checkError(err)
 	defer res.Body.Close()
 
-	// Write raw data to file
+	// Write data to file
 	saveHTMLContent(*course+".html", res.Body)
 }
 
 func getURLs(client *http.Client) []string {
-	fmt.Printf("[joncalhoun.io]: fetching video urls for %s\n", *course)
+	fmt.Printf("[courses.calhoun.io]: fetching video urls for %s\n", *course)
 	var urls []string
 	var file *os.File
 	var err error
 
 	// check if course page is cached
 	if fileExists(*course + ".html") {
-		fmt.Printf("[joncalhoun.io]: loading course page from cache: %s.html\n", *course)
+		fmt.Printf("[courses.calhoun.io]: loading course page from cache: %s.html\n", *course)
 		file, err = os.OpenFile(*course+".html", os.O_RDWR, 0666)
 		checkError(err)
 	} else {
@@ -138,15 +169,20 @@ func getURLs(client *http.Client) []string {
 	doc, err := goquery.NewDocumentFromReader(file)
 	checkError(err)
 
-	// parses the HTML tree to extract videos pages
+	// parses the HTML tree to extract url
+	// where the lesson video is located
 	doc.Find("a").Each(func(i int, s *goquery.Selection) {
 		href, _ := s.Attr("href")
 		switch *course {
 		case "testwithgo":
+			// each lesson link should contain this substring
+			// else ignore
 			if strings.Contains(href, "/lessons/les_twg") {
 				urls = append(urls, "https://courses.calhoun.io"+href)
 			}
 		case "gophercises":
+			// each lesson link should contain this substring
+			// else ignore
 			if strings.Contains(href, "/lessons/les_goph") {
 				urls = append(urls, "https://courses.calhoun.io"+href)
 			}
@@ -166,15 +202,16 @@ func getURLs(client *http.Client) []string {
 	videoURLs := []string{}
 	for _, url := range urls {
 		videoURLs = append(videoURLs, getVideoURL(url, client))
-		fmt.Printf("[joncalhoun.io]: waiting 5 seconds\n")
+		// we don't want to send too many requests in a short time
+		// this naively simulates human behaviour
+		fmt.Printf("[courses.calhoun.io]: waiting 5 seconds\n")
 		time.Sleep(time.Duration(delayDuration) * time.Second)
 	}
-	fmt.Println("Nothing here")
 	return videoURLs
 }
 
 func getVideoURL(url string, client *http.Client) string {
-	fmt.Printf("[joncalhoun.io]: fetching video url for lesson %s\n", url)
+	fmt.Printf("[courses.calhoun.io]: fetching video url for lesson %s\n", url)
 	var videoID string
 	var file *os.File
 	var err error
@@ -183,7 +220,7 @@ func getVideoURL(url string, client *http.Client) string {
 	name := strings.Split(url, "/")[4]
 	filename := "webpage/" + name + ".html"
 	if fileExists(filename) {
-		fmt.Printf("[joncalhoun.io]: loading cache from %s\n", filename)
+		fmt.Printf("[courses.calhoun.io]: loading cache from %s\n", filename)
 		file, err = os.OpenFile(filename, os.O_RDWR, 0666)
 		checkError(err)
 
@@ -208,7 +245,7 @@ func getVideoURL(url string, client *http.Client) string {
 	checkError(err)
 	iframe := doc.Find("iframe")
 	videoID, _ = iframe.Attr("src")
-	fmt.Printf("[joncalhoun.io]:[video ID] %s\n", videoID)
+	fmt.Printf("[courses.calhoun.io]:[video ID] %s\n", videoID)
 	return videoID
 }
 
@@ -219,7 +256,7 @@ func saveHTMLContent(filename string, r io.Reader) {
 	filewriter := bufio.NewWriter(f)
 	_, err = filewriter.ReadFrom(r)
 	checkError(err)
-	fmt.Printf("[joncalhoun.io]: web page data written to %s\n", filename)
+	fmt.Printf("[courses.calhoun.io]: web page data written to %s\n", filename)
 
 	filewriter.Flush()
 }
@@ -230,4 +267,12 @@ func fileExists(filename string) bool {
 		return false
 	}
 	return !info.IsDir()
+}
+
+func dirExists(path string) bool {
+	info, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return info.IsDir()
 }

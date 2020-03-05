@@ -1,6 +1,6 @@
 # joncalhoun-dl 🔥⬇
 
-Downloads Go tutorial videos from joncalhoun.io
+Downloads Go tutorial videos from <https://courses.calhoun.io>
 
 > **Before you proceed, note that you must be a paid user for the paid content to download**
 
@@ -15,15 +15,18 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
     $ git clone git@github.com:timolinn/joncalhoun-dl.git
     $ cd joncalhoun-dl
     $ go run main.go --email=jon@doe.com --password=12345 --course=gophercises
-     [joncalhoun.io]: fetching video urls for gophercises
-     [joncalhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
+     [courses.calhoun.io]: fetching video urls for gophercises
+     [courses.calhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
+
+Video downloads **resumes** from where it stopped, so should you experience network interruption nothing to worry about just make sure the output directory remains the same.
 
 ### Command [OPTIONS]
 
 + `--email` : Your account email address. Sign up [here](https://courses.calhoun.io/signup?)
 + `--password` : Your account password. _Unlike the unix password prompt, this will not hide your password by default, you'll have to keep an eye over your shoulder 😉_
-+ `--course` : This is the name of the course you want to download. **Defaults to `"gophercises"`**
++ `--course` : This is the name of the course you want to download. **Defaults** to `"gophercises"`
++ `--output` : Output directory (where the videos would be saved). **Defaults** to `"./videos/[course]"`
 
 ### Supported courses
 
@@ -41,14 +44,20 @@ Downloaded course videos would be automatically grouped inside `course directori
 
 There is still a couple features to implement, check the TODO list below and send a pull request.
 
+### Tests
+
+```bash
+    $ go test
+```
+
 ## TODO
 
 + [x] Add caching for requests
 + [x] Add default output directory
-+ [ ] Add unit tests
++ [x] Add output directoy flag
++ [ ] Add more unit tests
 + [ ] provide packaged release and semver
 + [ ] check for authentication error
-+ [ ] Add output directory flag
 + [ ] prevent signin when using cache
 + [ ] choose video quality
 
