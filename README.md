@@ -1,6 +1,6 @@
 # joncalhoun-dl 🔥⬇
 
-Downloads Go tutorial videos from joncalhoun.io
+Downloads Go tutorial videos from <https://courses.calhoun.io>
 
 > **Before you proceed, note that you must be a paid user for the paid content to download**
 
