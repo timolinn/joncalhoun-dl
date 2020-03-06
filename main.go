@@ -90,7 +90,9 @@ func main() {
 	videoURLs := getURLs(client)
 	location := *outputdir + "/%(title)s.%(ext)s"
 	if *outputdir == "" || !dirExists(*outputdir) {
-		*outputdir = "./videos/" + *course
+		cwd, err := os.Getwd()
+		checkError(err)
+		*outputdir = cwd + "/" + *course
 		location = *outputdir + "/%(title)s.%(ext)s"
 	}
 	fmt.Printf("[courses.calhoun.io]: output directory is %s\n", *outputdir)
@@ -98,8 +100,8 @@ func main() {
 	for i, videoURL := range videoURLs {
 		if videoURL != "" {
 			fmt.Printf("[courses.calhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
-		  fmt.Printf("[exec]: youtube-dl %s --referer %s -o %s\n", videoURL, referer, location)
-		  cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o", location)
+			fmt.Printf("[exec]: youtube-dl %s --referer %s -o %s\n", videoURL, referer, location)
+			cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o", location)
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 			if err := cmd.Start(); err != nil {
@@ -108,9 +110,9 @@ func main() {
 			if err := cmd.Wait(); err != nil {
 				log.Fatal(err)
 			}
-			fmt.Printf("[joncalhoun.io]: downloaded lesson 0%d\n", i+1)
+			fmt.Printf("[courses.calhoun.io]: downloaded lesson 0%d\n", i+1)
 		} else {
-			fmt.Printf("[joncalhoun.io]: Page for lesson 0%d does not have an embedded video \n", i+1)
+			fmt.Printf("[courses.calhoun.io]: Page for lesson 0%d does not have an embedded video \n", i+1)
 		}
 	}
 	fmt.Println("Done! 🚀")
