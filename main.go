@@ -29,9 +29,11 @@ var outputdir = flag.String("output", "", "output directory")
 var referer = "https://courses.calhoun.io"
 
 var courses = map[string]string{
-	"testwithgo":  "https://courses.calhoun.io/courses/cor_test",
-	"gophercises": "https://courses.calhoun.io/courses/cor_gophercises",
-	"algorithms":  "https://courses.calhoun.io/courses/cor_algo",
+	"testwithgo":           "https://courses.calhoun.io/courses/cor_test",
+	"gophercises":          "https://courses.calhoun.io/courses/cor_gophercises",
+	"algorithms":           "https://courses.calhoun.io/courses/cor_algo",
+	"webdevwithgo":         "https://courses.calhoun.io/courses/cor_webdev",
+	"advancedwebdevwithgo": "https://courses.calhoun.io/courses/cor_awd",
 }
 var delayDuration = 5
 
@@ -94,18 +96,22 @@ func main() {
 	fmt.Printf("[courses.calhoun.io]: output directory is %s\n", *outputdir)
 
 	for i, videoURL := range videoURLs {
-		fmt.Printf("[courses.calhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
-		fmt.Printf("[exec]: youtube-dl %s --referer %s -o %s\n", videoURL, referer, location)
-		cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o", location)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		if err := cmd.Start(); err != nil {
-			log.Fatal(err)
+		if videoURL != "" {
+			fmt.Printf("[courses.calhoun.io]: downloading lesson 0%d via %s\n", i+1, videoURL)
+		  fmt.Printf("[exec]: youtube-dl %s --referer %s -o %s\n", videoURL, referer, location)
+		  cmd := exec.CommandContext(ctx, "youtube-dl", videoURL, "--referer", referer, "-o", location)
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			if err := cmd.Start(); err != nil {
+				log.Fatal(err)
+			}
+			if err := cmd.Wait(); err != nil {
+				log.Fatal(err)
+			}
+			fmt.Printf("[joncalhoun.io]: downloaded lesson 0%d\n", i+1)
+		} else {
+			fmt.Printf("[joncalhoun.io]: Page for lesson 0%d does not have an embedded video \n", i+1)
 		}
-		if err := cmd.Wait(); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("[courses.calhoun.io]: downloaded lesson 0%d\n", i+1)
 	}
 	fmt.Println("Done! 🚀")
 }
@@ -180,8 +186,14 @@ func getURLs(client *http.Client) []string {
 			if strings.Contains(href, "/lessons/les_goph") {
 				urls = append(urls, "https://courses.calhoun.io"+href)
 			}
+		case "webdevwithgo":
+			if strings.Contains(href, "/lessons/les_wd") {
+				urls = append(urls, "https://courses.calhoun.io"+href)
+			}
+		case "advancedwebdevwithgo":
+			log.Fatal("'Advanced Web Development with Go' not supported yet")
 		case "algorithms":
-			log.Fatal("Algorithms not supported yet")
+			log.Fatal("'Algorithms' not supported yet")
 		default:
 			log.Fatal("course not supported yet. feel free to send a pull request")
 		}

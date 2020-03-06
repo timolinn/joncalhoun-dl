@@ -32,7 +32,13 @@ Video downloads **resumes** from where it stopped, so should you experience netw
 
 + [x] [gophercises](https://courses.calhoun.io/courses/cor_gophercises)
 + [x] [testwithgo](https://courses.calhoun.io/courses/cor_test)
++ [x] [webdevwithgo](https://courses.calhoun.io/courses/cor_webdev)
++ [ ] [advancedwebdevwithgo](https://https://courses.calhoun.io/courses/cor_awd)
 + [ ] [algorithms](https://courses.calhoun.io/courses/cor_algo)
+
+### Nuance
+
+Downloaded course videos would be automatically grouped inside `course directories` named after their respective courses titles e.g. `testwithgo` etc., without your input. These newly created `course directories` would be in a root directory named `videos` - which is also created at runtime.
 
 ### Contributing
 
