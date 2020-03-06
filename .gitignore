@@ -21,3 +21,7 @@ context.go
 *.ytdl
 *.part
 *.mp4
+
+
+# binary
+joncalhoun-dl
