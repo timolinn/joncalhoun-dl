@@ -30,16 +30,16 @@ If you installed via `go get`, you can simply run
 
 ```bash
     $ joncalhoun-dl -email=jon@doe.com -password=12345 -course=gophercises -output=your-chosen-directory
-     [courses.calhoun.io]: fetching video urls for gophercises
-     [courses.calhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
+     [joncalhoun-dl]: fetching video urls for gophercises
+     [joncalhoun-dl]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
 If you built from source, the compiled binary should be in the current folder.
 
 ```bash
     $ ./joncalhoun-dl -email=jon@doe.com -password=12345 -course=gophercises -output=your-chosen-directory
-     [courses.calhoun.io]: fetching video urls for gophercises
-     [courses.calhoun.io]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
+     [joncalhoun-dl]: fetching video urls for gophercises
+     [joncalhoun-dl]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
 Also note, video downloads **resumes** from where it stopped, so should you experience network interruption nothing to worry about just make sure the output directory remains the same.
