@@ -50,6 +50,8 @@ Also note, video downloads **resumes** from where it stopped, so should you expe
 + `--password` : Your account password. _Unlike the unix password prompt, this will not hide your password by default, you'll have to keep an eye over your shoulder 😉_
 + `--course` : This is the name of the course you want to download. **Defaults** to `"gophercises"`
 + `--output` : This is the location directory you want the videos to be saved. It must be an absolute path. If this is not specified, we will try to create a `"/[course] folder"` (ie. the specified course name eg. `gophercises`) within your current working directory.
++ `--cache` : Specify your desired location where the cache will be saved. joncalhoun-dl uses the cached data to resume downloads incase of an interruption. It also prevents unecessary repeated calls to the remote server. This will default to a `cache` folder within the course videos folder.
++ `--clean-cache` : removes existing cache.
 
 ### Supported courses
 
