@@ -48,9 +48,9 @@ Also note, video downloads **resumes** from where it stopped, so should you expe
 
 + `--email` : Your account email address. Sign up [here](https://courses.calhoun.io/signup?)
 + `--password` : Your account password. _Unlike the unix password prompt, this will not hide your password by default, you'll have to keep an eye over your shoulder 😉_
-+ `--course` : This is the name of the course you want to download. **Defaults** to `"gophercises"`
++ `--course` : This is the name of the course you want to download. **defaults** to `"gophercises"`
 + `--output` : This is the output directory, which means where you want the videos to be saved. It must be an absolute path. If this is not specified, we will try to create a `"/[course] folder"` (ie. the specified course name eg. `gophercises`) within your current working directory.
-+ `--cache` : Specify your desired location where the cache will be saved. joncalhoun-dl uses the cached data to resume downloads incase of an interruption. It also prevents unecessary repeated calls to the remote server. This will default to a `cache` folder within the output directoy.
++ `--cache` : Specify your desired location where the cache will be saved. joncalhoun-dl uses the cached data to resume downloads incase of an interruption. It also prevents unecessary repeated calls to the remote server. This will **default** to a `joncalhoun-dl-cache` folder within the output directoy.
 + `--help` : Prints usage options
 
 ### Supported courses
