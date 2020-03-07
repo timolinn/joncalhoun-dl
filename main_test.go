@@ -13,6 +13,7 @@ import (
 func TestSaveHTMLContent(t *testing.T) {
 	t.Run("saveHTMLContent: should saves html file to filesystem", func(t *testing.T) {
 		filename := "temp.html"
+		*cachelocation = "."
 		r := strings.NewReader(`<!DOCTYPE html>
 		<html lang="en">
 		  <head>
@@ -151,8 +152,18 @@ func TestFileExists(t *testing.T) {
 
 func TestDirExists(t *testing.T) {
 	t.Run("dirExists: should check if a directory exists when given a path", func(t *testing.T) {
-		assert.True(t, dirExists("webpage"))
+		dir := "testdir"
+		err := os.Mkdir(dir, 0755)
+		if err != nil {
+			t.Error()
+			return
+		}
+		assert.True(t, dirExists("testdir"))
 		assert.False(t, dirExists("nonExistingDir"))
+		if err := os.Remove(dir); err != nil {
+			t.Error()
+			return
+		}
 	})
 }
 

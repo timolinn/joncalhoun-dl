@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+joncalhoun-dl
 
 # Test binary, built with `go test -c`
 *.test
@@ -14,14 +15,11 @@
 # Dependency directories (remove the comment below to include it)
 vendor/
 videos
+cache/
+
 .DS_STORE
 
 *.html
-context.go
 *.ytdl
 *.part
 *.mp4
-
-
-# binary
-joncalhoun-dl
