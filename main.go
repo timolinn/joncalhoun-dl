@@ -20,11 +20,12 @@ import (
 	"golang.org/x/net/publicsuffix"
 )
 
-var email = flag.String("email", "", "your email")
-var password = flag.String("password", "", "your password")
+var email = flag.String("email", "", "your account email")
+var password = flag.String("password", "", "your account password")
 var course = flag.String("course", "gophercises", "course name")
-var outputdir = flag.String("output", "", "output directory")
-var cachelocation = flag.String("cache", "", "cache location")
+var outputdir = flag.String("output", "", "output directory\n ie. where the course videos are saved")
+var cachelocation = flag.String("cache", "", "specifies where the cache will be saved\nDefaults to a cache folder within the output directoy")
+var help = flag.Bool("help", false, "prints this output")
 
 // this will be used by youtube-dl binary to download video
 var referer = "https://courses.calhoun.io"
@@ -78,6 +79,12 @@ func WithTransport(fn RoundTripperFunc) ClientOption {
 func main() {
 	// Parse commandline options
 	flag.Parse()
+
+	// Print usage options
+	if *help {
+		flag.PrintDefaults()
+		return
+	}
 
 	client, err := NewClient()
 	checkError(err)
