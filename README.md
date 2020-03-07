@@ -58,8 +58,8 @@ Also note, video downloads **resumes** from where it stopped, so should you expe
 + [x] [gophercises](https://courses.calhoun.io/courses/cor_gophercises)
 + [x] [testwithgo](https://courses.calhoun.io/courses/cor_test)
 + [x] [webdevwithgo](https://courses.calhoun.io/courses/cor_webdev)
++ [x] [algorithms](https://courses.calhoun.io/courses/cor_algo)
 + [ ] [advancedwebdevwithgo](https://https://courses.calhoun.io/courses/cor_awd)
-+ [ ] [algorithms](https://courses.calhoun.io/courses/cor_algo)
 
 ### Contributing
 
