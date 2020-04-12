@@ -52,6 +52,7 @@ Also note, video downloads **resumes** from where it stopped, so should you expe
 + `--output` [optional]: This is the output directory, which means where you want the videos to be saved. It must be an absolute path. If this is not specified, we will try to create a `"/[course] folder"` (ie. the specified course name eg. `gophercises`) within your current working directory.
 + `--cache` [optional]: Specify your desired location where the cache will be saved. joncalhoun-dl uses the cached data to resume downloads incase of an interruption. It also prevents unecessary repeated calls to the remote server. This will **default** to a `joncalhoun-dl-cache` folder within the output directoy.
 + `--help` [optional]: Prints usage options
++ `--quality` [optional]: Sets the video quality to download
 
 ### Supported courses
 
