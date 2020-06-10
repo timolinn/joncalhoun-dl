@@ -91,6 +91,7 @@ To run existing tests
 + [ ] check for authentication error
 + [ ] prevent signin when using cache
 + [ ] choose video quality
++ [ ] reduce cache size by storing fewer data
 
 ### Authors
 
