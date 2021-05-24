@@ -131,6 +131,33 @@ func main() {
 			fmt.Printf("[joncalhoun-dl]: Page for lesson 0%d does not have an embedded video \n", i+1)
 		}
 	}
+
+	os.Chdir(*outputdir)
+
+	files, _ := filepath.Glob("*.mp4")
+
+	for _, file := range files {
+
+		slc := strings.Split(match, "-")
+		for i := range slc {
+			slc[i] = strings.TrimSpace(slc[i])
+		}
+
+		lesson := strings.Join(slc[:2], " ")
+		video := strings.Join(slc[2:], " ")
+
+		// Create lesson directory if it does not exist yet
+		if !dirExists(odir + "/" + lesson) {
+			err := os.Mkdir(odir+"/"+lesson, 0755)
+			checkError(err)
+		}
+
+		fmt.Printf("Moving %s to %s/%s\n", match, lesson, video)
+		fmt.Printf("[joncalhoun-dl]: Moving %s to %s/%s\n", file, lesson, video)
+
+		os.Rename(match, lesson+"/"+video)
+	}
+
 	fmt.Println("Done! 🚀")
 }
 
