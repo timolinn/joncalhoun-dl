@@ -12,34 +12,33 @@ Kindly create your account [here](https://courses.calhoun.io/signup?). Jon is a 
 
 To install this package run
 
-```bash
-    $ go get -u github.com/timolinn/joncalhoun-dl
+```sh
+$ go get -u github.com/timolinn/joncalhoun-dl
 ```
 
 ### To build from source run
 
-```bash
-    $ git clone git@github.com:timolinn/joncalhoun-dl.git
-    $ cd joncalhoun-dl
-    $ go build .
+```sh
+$ git clone git@github.com:timolinn/joncalhoun-dl.git
+$ cd joncalhoun-dl
+$ go build .
 ```
 
 ## How to use
 
 If you installed via `go get`, you can simply run
 
-```bash
-    $ joncalhoun-dl -email=jon@doe.com -password=12345 -course=gophercises -output=your-chosen-directory
-     [joncalhoun-dl]: fetching video urls for gophercises
-     [joncalhoun-dl]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
+```sh
+$ joncalhoun-dl -email=jon@doe.com -password=12345 -course=gophercises -output=your-chosen-directory
+[joncalhoun-dl]: fetching video urls for gophercises
+[joncalhoun-dl]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
 If you built from source, the compiled binary should be in the current folder.
 
-```bash
-    $ ./joncalhoun-dl -email=jon@doe.com -password=12345 -course=gophercises -output=your-chosen-directory
-     [joncalhoun-dl]: fetching video urls for gophercises
-     [joncalhoun-dl]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
+```sh
+$ ./joncalhoun-dl -email=jon@doe.com -password=12345 -course=gophercises -output=your-chosen-directory[joncalhoun-dl]: fetching video urls for gophercises
+[joncalhoun-dl]: fetching data from https://courses.calhoun.io/courses/cor_gophercises...
 ```
 
 Also note, video downloads **resumes** from where it stopped, so should you experience network interruption nothing to worry about just make sure the output directory remains the same.
@@ -77,8 +76,8 @@ If you find a bug please create an [issue](https://github.com/timolinn/joncalhou
 
 To run existing tests
 
-```bash
-    $ go test
+```sh
+$ go test
 ```
 
 ## TODO
@@ -92,6 +91,7 @@ To run existing tests
 + [ ] prevent signin when using cache
 + [ ] choose video quality
 + [ ] reduce cache size by storing fewer data
++ [ ] delete cache folder after download finishes
 
 ### Authors
 
