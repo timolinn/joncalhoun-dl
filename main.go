@@ -138,7 +138,7 @@ func main() {
 
 	for _, file := range files {
 
-		slc := strings.Split(match, "-")
+		slc := strings.Split(file, "-")
 		for i := range slc {
 			slc[i] = strings.TrimSpace(slc[i])
 		}
@@ -147,15 +147,14 @@ func main() {
 		video := strings.Join(slc[2:], " ")
 
 		// Create lesson directory if it does not exist yet
-		if !dirExists(odir + "/" + lesson) {
-			err := os.Mkdir(odir+"/"+lesson, 0755)
+		if !dirExists(*outputdir + "/" + lesson) {
+			err := os.Mkdir(*outputdir+"/"+lesson, 0755)
 			checkError(err)
 		}
 
-		fmt.Printf("Moving %s to %s/%s\n", match, lesson, video)
 		fmt.Printf("[joncalhoun-dl]: Moving %s to %s/%s\n", file, lesson, video)
 
-		os.Rename(match, lesson+"/"+video)
+		os.Rename(file, lesson+"/"+video)
 	}
 
 	fmt.Println("Done! 🚀")
