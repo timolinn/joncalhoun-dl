@@ -15,6 +15,7 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+	"path/filepath"
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/net/publicsuffix"
@@ -131,6 +132,32 @@ func main() {
 			fmt.Printf("[joncalhoun-dl]: Page for lesson 0%d does not have an embedded video \n", i+1)
 		}
 	}
+
+	os.Chdir(*outputdir)
+
+	files, _ := filepath.Glob("*.mp4")
+
+	for _, file := range files {
+
+		slc := strings.Split(file, "-")
+		for i := range slc {
+			slc[i] = strings.TrimSpace(slc[i])
+		}
+
+		lesson := strings.Join(slc[:2], " ")
+		video := strings.Join(slc[2:], " ")
+
+		// Create lesson directory if it does not exist yet
+		if !dirExists(*outputdir + "/" + lesson) {
+			err := os.Mkdir(*outputdir+"/"+lesson, 0755)
+			checkError(err)
+		}
+
+		fmt.Printf("[joncalhoun-dl]: Moving %s to %s/%s\n", file, lesson, video)
+
+		os.Rename(file, lesson+"/"+video)
+	}
+
 	fmt.Println("Done! 🚀")
 }
 
